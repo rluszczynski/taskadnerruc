@@ -17,7 +17,7 @@ public class RequestValidator {
 
 
     public void requestCaseFilterValidator(String from, String to, String caseType) {
-        if (!isValidDate(from) || !isValidDate(to) || !isEnum(caseType, CaseType.class)) {
+        if (isValidDate(from) || isValidDate(to) || !isEnum(caseType, CaseType.class)) {
             throw new ApiRequestException("Niepoprawnie wprowadzone dane");
         }
     }
@@ -28,9 +28,9 @@ public class RequestValidator {
         formatDaty.setLenient(false);
         try {
             formatDaty.parse(dateStr);
-            return true;
-        } catch (ParseException e) {
             return false;
+        } catch (ParseException e) {
+            return true;
         }
     }
 
