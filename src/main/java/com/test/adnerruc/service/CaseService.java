@@ -5,6 +5,7 @@ import com.test.adnerruc.domain.repository.CaseRepository;
 import com.test.adnerruc.domain.type.CaseState;
 import com.test.adnerruc.domain.type.CaseType;
 import com.test.adnerruc.response.CaseFilterResponse;
+import com.test.adnerruc.validators.RequestValidator;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -21,11 +22,14 @@ import java.util.stream.Collectors;
 public class CaseService {
 
     CaseRepository caseRepository;
+    RequestValidator requestValidator;
 
-    public CaseFilterResponse getFilteredCases(LocalDate from, LocalDate to, CaseType caseType) {
-        List<CaseEntity> cases = caseRepository.findByDateOfEntryBetweenAndCaseType(from, to, caseType);
+    public CaseFilterResponse getFilteredCases(String from, String to, String caseType) {
+
+        requestValidator.requestCaseFilterValidator(from, to, caseType);
+
+        List<CaseEntity> cases = caseRepository.findByDateOfEntryBetweenAndCaseType(LocalDate.parse(from), LocalDate.parse(to), CaseType.valueOf(caseType));
         Map<CaseState, Long> countCases = cases.stream().collect(Collectors.groupingBy(CaseEntity::getCaseState, Collectors.counting()));
-        System.out.println(countCases);
         return CaseFilterResponse.builder()
                 .caseTypeCount(countCases)
                 .build();

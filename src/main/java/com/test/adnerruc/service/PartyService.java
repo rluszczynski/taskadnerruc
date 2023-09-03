@@ -6,6 +6,7 @@ import com.test.adnerruc.domain.model.PartyEntity;
 import com.test.adnerruc.domain.repository.CaseRepository;
 import com.test.adnerruc.domain.type.CaseState;
 import com.test.adnerruc.response.CaseStateResponse;
+import com.test.adnerruc.validators.RequestValidator;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -21,8 +22,9 @@ public class PartyService {
 
     CaseRepository caseRepository;
 
-    public CaseStateResponse getActivePartyAddressByCaseState(CaseState caseState) {
-        List<CaseEntity> casesWithState = caseRepository.findByCaseState(caseState);
+    public CaseStateResponse getActivePartyAddressByCaseState(String caseState) {
+        RequestValidator.requestEnumValidator(caseState, CaseState.class);
+        List<CaseEntity> casesWithState = caseRepository.findByCaseState(CaseState.valueOf(caseState));
         List<AddressDTO> collect = casesWithState.stream()
                 .map(CaseEntity::getParties)
                 .flatMap(List::stream)

@@ -1,6 +1,5 @@
 package com.test.adnerruc.controller;
 
-import com.test.adnerruc.domain.type.CaseState;
 import com.test.adnerruc.response.CaseStateResponse;
 import com.test.adnerruc.service.PartyService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,7 +23,7 @@ public class PartyController {
     @Operation(summary = "Get filtered addresses", description = "Task two. Get filtered addresses.", tags = {"addresses"})
     @GetMapping("/addresses")
     public ResponseEntity<CaseStateResponse> getCaseState(
-            @RequestParam CaseState caseState) {
+            @RequestParam String caseState) {
         return ResponseEntity.ok(partyService.getActivePartyAddressByCaseState(caseState));
     }
 }
