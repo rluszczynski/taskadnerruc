@@ -10,4 +10,5 @@ public class AdnerrucApplication {
 		SpringApplication.run(AdnerrucApplication.class, args);
 	}
 
+
 }
