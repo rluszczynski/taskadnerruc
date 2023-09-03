@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class PartyController {
 
     PartyService partyService;
-
     @Operation(summary = "Get filtered addresses", description = "Task two. Get filtered addresses.", tags = {"addresses"})
     @GetMapping("/addresses")
     public ResponseEntity<CaseStateResponse> getCaseState(
